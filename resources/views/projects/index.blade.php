@@ -18,8 +18,11 @@
                             <i class="{{$item->icon}} text-white text-lg"></i>
                         </div>
                         @endif
-                        <div class="flex flex-col justify-center items-center font-bold">
-                            [{{ $item->key }}] {{ $item->name }}
+                        <div class="flex flex-col justify-center items-center">
+                            <div class="flex justify-start gap-2">
+                                <span class="text-gray-400">{{ $item->key }}</span>
+                                <span class="font-bold">{{ $item->name }}</span>
+                            </div>
                         </div>
                     </x-splade-link>
                 </x-splade-cell>
