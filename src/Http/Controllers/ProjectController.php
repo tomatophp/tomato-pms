@@ -3,6 +3,7 @@
 namespace TomatoPHP\TomatoPms\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -60,33 +61,22 @@ class ProjectController extends Controller
      */
     public function store(Request $request): RedirectResponse|JsonResponse
     {
+        $request->merge([
+           "user_id" => auth('web')->user()->id,
+           "project_leader_id" => auth('web')->user()->id,
+           "default_assignee_id" => auth('web')->user()->id,
+           "start_at" => Carbon::now()
+        ]);
         $response = Tomato::store(
             request: $request,
             model: \TomatoPHP\TomatoPms\Models\Project::class,
             validation: [
-                'user_id' => 'required|exists:users,id',
-                'approved_by' => 'nullable',
                 'project_leader_id' => 'required|exists:users,id',
                 'default_assignee_id' => 'nullable|exists:users,id',
-                'account_id' => 'nullable|exists:accounts,id',
-                'category_id' => 'nullable|exists:categories,id',
                 'name' => 'required|max:255|string',
-                'view' => 'nullable|max:255|string',
-                'status' => 'nullable|max:255|string',
-                'key' => 'required|max:255|string',
-                'url' => 'nullable|max:255|string',
-                'description' => 'nullable',
-                'body' => 'nullable',
+                'key' => 'required|max:255|string|unique:projects,key',
                 'icon' => 'nullable|max:255',
                 'color' => 'nullable|max:255',
-                'type' => 'nullable|max:255|string',
-                'currency' => 'nullable|max:255|string',
-                'rate' => 'nullable',
-                'rate_per' => 'nullable|max:255|string',
-                'total' => 'nullable',
-                'is_activated' => 'nullable',
-                'is_started' => 'nullable',
-                'is_done' => 'nullable'
             ],
             message: __('Project updated successfully'),
             redirect: 'admin.projects.index',
@@ -120,6 +110,38 @@ class ProjectController extends Controller
         return Tomato::get(
             model: $model,
             view: 'tomato-pms::projects.edit',
+        );
+    }
+
+    public function permissions(\TomatoPHP\TomatoPms\Models\Project $model)
+    {
+        return Tomato::get(
+            model: $model,
+            view: 'tomato-pms::projects.permissions',
+        );
+    }
+
+    public function description(\TomatoPHP\TomatoPms\Models\Project $model)
+    {
+        return Tomato::get(
+            model: $model,
+            view: 'tomato-pms::projects.description',
+        );
+    }
+
+    public function status(\TomatoPHP\TomatoPms\Models\Project $model)
+    {
+        return Tomato::get(
+            model: $model,
+            view: 'tomato-pms::projects.status',
+        );
+    }
+
+    public function rates(\TomatoPHP\TomatoPms\Models\Project $model)
+    {
+        return Tomato::get(
+            model: $model,
+            view: 'tomato-pms::projects.rates',
         );
     }
 

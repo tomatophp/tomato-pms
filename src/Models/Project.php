@@ -57,6 +57,11 @@ class Project extends Model
      */
     protected $fillable = ['user_id', 'approved_by', 'project_leader_id', 'default_assignee_id', 'account_id', 'category_id', 'name', 'view', 'status', 'key', 'url', 'description', 'body', 'icon', 'color', 'type', 'currency', 'rate', 'rate_per', 'total', 'start_at', 'end_at', 'is_activated', 'is_started', 'is_done', 'created_at', 'updated_at'];
 
+    protected $casts = [
+        'is_activated' => 'boolean',
+        'is_started' => 'boolean',
+        'is_done' => 'boolean',
+    ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

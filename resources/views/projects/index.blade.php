@@ -11,38 +11,32 @@
     <div class="pb-12">
         <div class="mx-auto">
             <x-splade-table :for="$table" striped>
-                <x-splade-cell description>
-    <x-tomato-admin-row table :value="$item->description" />
-</x-splade-cell>
-<x-splade-cell body>
-    <x-tomato-admin-row table :value="$item->body" />
-</x-splade-cell>
-<x-splade-cell icon>
-    <x-tomato-admin-row table type="icon" :value="$item->icon" />
-</x-splade-cell>
-<x-splade-cell color>
-    <x-tomato-admin-row table type="color" :value="$item->color" />
-</x-splade-cell>
-<x-splade-cell rate>
-    <x-tomato-admin-row table type="number" :value="$item->rate" />
-</x-splade-cell>
-<x-splade-cell total>
-    <x-tomato-admin-row table type="number" :value="$item->total" />
-</x-splade-cell>
-<x-splade-cell is_activated>
-    <x-tomato-admin-row table type="bool" :value="$item->is_activated" />
-</x-splade-cell>
-<x-splade-cell is_started>
-    <x-tomato-admin-row table type="bool" :value="$item->is_started" />
-</x-splade-cell>
-<x-splade-cell is_done>
-    <x-tomato-admin-row table type="bool" :value="$item->is_done" />
-</x-splade-cell>
+                <x-splade-cell name>
+                    <x-splade-link :href="route('admin.projects.show', $item->id)" class="flex justify-start gap-2">
+                        @if($item->color && $item->icon)
+                        <div class="w-8 h-8 rounded-lg flex flex-col justify-center items-center" style="background-color: {{$item->color}}">
+                            <i class="{{$item->icon}} text-white text-lg"></i>
+                        </div>
+                        @endif
+                        <div class="flex flex-col justify-center items-center font-bold">
+                            [{{ $item->key }}] {{ $item->name }}
+                        </div>
+                    </x-splade-link>
+                </x-splade-cell>
 
                 <x-splade-cell actions>
                     <div class="flex justify-start">
-                        <x-tomato-admin-button success type="icon" title="{{trans('tomato-admin::global.crud.view')}}" modal :href="route('admin.projects.show', $item->id)">
-                            <x-heroicon-s-eye class="h-6 w-6"/>
+                        <x-tomato-admin-button success type="icon" title="{{__('Permissions')}}" modal :href="route('admin.projects.permissions', $item->id)">
+                            <x-heroicon-s-user-circle class="h-6 w-6"/>
+                        </x-tomato-admin-button>
+                        <x-tomato-admin-button type="icon" title="{{__('Details')}}" :href="route('admin.projects.description', $item->id)">
+                            <x-heroicon-s-information-circle class="h-6 w-6"/>
+                        </x-tomato-admin-button>
+                        <x-tomato-admin-button  warning type="icon" title="{{__('Rates')}}" modal :href="route('admin.projects.rates', $item->id)">
+                            <x-heroicon-s-currency-dollar class="h-6 w-6"/>
+                        </x-tomato-admin-button>
+                        <x-tomato-admin-button type="icon" title="{{__('Status')}}" modal :href="route('admin.projects.status', $item->id)">
+                            <x-heroicon-s-question-mark-circle class="h-6 w-6"/>
                         </x-tomato-admin-button>
                         <x-tomato-admin-button warning type="icon" title="{{trans('tomato-admin::global.crud.edit')}}" modal :href="route('admin.projects.edit', $item->id)">
                             <x-heroicon-s-pencil class="h-6 w-6"/>

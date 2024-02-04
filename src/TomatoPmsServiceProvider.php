@@ -50,6 +50,10 @@ class TomatoPmsServiceProvider extends ServiceProvider
         //Register Routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
+        $this->app->bind('tomato-projects', function () {
+            return new Services\TomatoProjectsSlots();
+        });
+
     }
 
     public function boot(): void
@@ -59,7 +63,7 @@ class TomatoPmsServiceProvider extends ServiceProvider
             ->group(__('PMS'))
             ->label(__('Projects'))
             ->route('admin.projects.index')
-            ->icon('bx bx-circle')
+            ->icon('bx bxs-business')
         ]);
     }
 }
