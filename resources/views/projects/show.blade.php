@@ -56,4 +56,15 @@
                                method="delete"  label="{{__('Delete')}}" />
         <x-tomato-admin-button secondary :href="route('admin.projects.index')" label="{{__('Cancel')}}"/>
     </div>
+
+    @if(class_exists(\TomatoPHP\TomatoTasks\Models\Issue::class))
+        <x-tomato-admin-relations-group :relations="['sprints'=>__('Sprints')]">
+            <x-tomato-admin-relations
+                :model="$model"
+                name="sprints"
+                :table="\TomatoPHP\TomatoTasks\Tables\SprintTable::class"
+                view="tomato-pms::projects.sprints"
+            />
+        </x-tomato-admin-relations-group>
+    @endif
 </x-tomato-admin-container>
