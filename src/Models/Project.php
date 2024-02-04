@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace TomatoPHP\TomatoPms\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use TomatoPHP\TomatoCategory\Models\Category;
+use TomatoPHP\TomatoTasks\Models\Issue;
+use TomatoPHP\TomatoTasks\Models\Sprint;
 
 /**
  * @property integer $id
@@ -38,9 +41,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property Account $account
  * @property User $user
  * @property Category $category
- * @property User $user
- * @property User $user
- * @property User $user
+ * @property User $defaultAssignee
+ * @property User $projectLeader
+ * @property User $approvedBy
  * @property User[] $users
  * @property Category[] $categories
  * @property ProjectsMeta[] $projectsMetas
@@ -67,7 +70,7 @@ class Project extends Model
      */
     public function issues()
     {
-        return $this->hasMany('App\Models\Issue');
+        return $this->hasMany(Issue::class);
     }
 
     /**
@@ -75,13 +78,13 @@ class Project extends Model
      */
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo(config('tomato-crm.model'));
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function approvedBy()
     {
         return $this->belongsTo('App\Models\User', 'approved_by');
     }
@@ -91,13 +94,13 @@ class Project extends Model
      */
     public function category()
     {
-        return $this->belongsTo('App\Models\Category');
+        return $this->belongsTo(Category::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function defaultAssignee()
     {
         return $this->belongsTo('App\Models\User', 'default_assignee_id');
     }
@@ -105,7 +108,7 @@ class Project extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function projectLeader()
     {
         return $this->belongsTo('App\Models\User', 'project_leader_id');
     }
@@ -121,7 +124,7 @@ class Project extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users()
+    public function employees()
     {
         return $this->belongsToMany('App\Models\User', 'projects_has_employees', null, 'employee_id');
     }
@@ -131,7 +134,7 @@ class Project extends Model
      */
     public function categories()
     {
-        return $this->belongsToMany('App\Models\Category', 'projects_has_tags', null, 'tag_id');
+        return $this->belongsToMany(Category::class, 'projects_has_tags', null, 'tag_id');
     }
 
     /**
@@ -139,7 +142,7 @@ class Project extends Model
      */
     public function projectsMetas()
     {
-        return $this->hasMany('App\Models\ProjectsMeta');
+        return $this->hasMany(ProjectsMeta::class, 'project_id');
     }
 
     /**
@@ -147,7 +150,7 @@ class Project extends Model
      */
     public function sprints()
     {
-        return $this->hasMany('App\Models\Sprint');
+        return $this->hasMany(Sprint::class);
     }
 
     /**

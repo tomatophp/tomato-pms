@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tables;
+namespace TomatoPHP\TomatoPms\Tables;
 
 use Illuminate\Http\Request;
 use ProtoneMedia\Splade\AbstractTable;
@@ -18,7 +18,7 @@ class ProjectTable extends AbstractTable
     public function __construct(public mixed $query=null)
     {
         if(!$query){
-            $this->query = \App\Models\Project::query();
+            $this->query = \TomatoPHP\TomatoPms\Models\Project::query();
         }
     }
 
@@ -57,7 +57,7 @@ class ProjectTable extends AbstractTable
             )
             ->bulkAction(
                 label: trans('tomato-admin::global.crud.delete'),
-                each: fn (\App\Models\Project $model) => $model->delete(),
+                each: fn (\TomatoPHP\TomatoPms\Models\Project $model) => $model->delete(),
                 after: fn () => Toast::danger(__('Project Has Been Deleted'))->autoDismiss(2),
                 confirm: true
             )

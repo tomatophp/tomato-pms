@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace TomatoPHP\TomatoPms\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +27,6 @@ class ProjectsMeta extends Model
      */
     public function project()
     {
-        return $this->belongsTo('App\Models\Project');
+        return $this->belongsTo(Project::class);
     }
 }
