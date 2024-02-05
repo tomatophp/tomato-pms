@@ -1,4 +1,6 @@
-# Tomato pms
+![Screenshot](https://github.com/tomatophp/tomato-pms/blob/master/art/screenshot.png)
+
+# Tomato PMS
 
 Project Management System for TomatoPHP Echo System
 
