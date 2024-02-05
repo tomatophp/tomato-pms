@@ -3,6 +3,8 @@
 namespace TomatoPHP\TomatoPms;
 
 use Illuminate\Support\ServiceProvider;
+use TomatoPHP\TomatoAdmin\Facade\TomatoMenu;
+use TomatoPHP\TomatoAdmin\Services\Contracts\Menu;
 
 
 class TomatoPmsServiceProvider extends ServiceProvider
@@ -48,10 +50,20 @@ class TomatoPmsServiceProvider extends ServiceProvider
         //Register Routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
+        $this->app->bind('tomato-projects', function () {
+            return new Services\TomatoProjectsSlots();
+        });
+
     }
 
     public function boot(): void
     {
-        //you boot methods here
+        TomatoMenu::register([
+           Menu::make()
+            ->group(__('PMS'))
+            ->label(__('Projects'))
+            ->route('admin.projects.index')
+            ->icon('bx bxs-business')
+        ]);
     }
 }
